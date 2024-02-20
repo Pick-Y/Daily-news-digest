@@ -1,11 +1,18 @@
 import requests
+import smtplib,ssl
+from sendmail import send_email
 
-api_key ="21fec9ba90cb46e9a18d28867becd322"
-url = "https://newsapi.org/v2/everything?q=tesla&from=2024-01-20&sortBy=publishedAt&apiKey=21fec9ba90cb46e9a18d28867becd322" 
+api_key ="YOUR API KEY"
+url = "https://newsapi.org/v2/everything?q=tesla&from=2024-01-20&sortBy=publishedAt&apiKey="+ api_key
 
 request = requests.get(url)
 
 content = request.json()
 
+body =""
+
 for article in content["articles"]:
-    print(article["author"])
+
+    body =f"{body}{article['title']}\n{article['description']}\n\n"
+    
+send_email(body)
